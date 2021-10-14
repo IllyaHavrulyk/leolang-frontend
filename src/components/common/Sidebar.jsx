@@ -18,7 +18,9 @@ const navItems = [
 
 function Sidebar() {
   const [open, setOpen] = useState(false);
-  const handleOpenMenuClick = () => setOpen(!open);
+  const handleOpenMenuClick = () => {
+    setOpen(!open);
+  };
   return (
     <div className={`sidebar ${open ? 'open' : null}`}>
       <LogoDetails handleClick={handleOpenMenuClick} isMenuOpen={open} />

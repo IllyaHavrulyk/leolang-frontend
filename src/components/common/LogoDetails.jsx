@@ -21,4 +21,4 @@ LogoDetails.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
 };
 
-export default { LogoDetails };
+export default LogoDetails;
