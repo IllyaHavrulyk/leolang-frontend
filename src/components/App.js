@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import React from 'react';
 import Sidebar from './common/Sidebar';
+import "../styles/Sidebar.scss";
+import Home from './common/Home';
 
 const User = () => (
   <section className="home-section">
@@ -19,6 +21,7 @@ function App() {
     <>
       <BrowserRouter>
         <Sidebar />
+        <Home />
         <Routes>
           <Route path="/" component={User} exact />
           <Route path="/user" component={User} />

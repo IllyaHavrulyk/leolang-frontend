@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import "../../styles/Sidebar.scss";
 
 import LogoDetails from './LogoDetails';
 import NavItem from './NavItem';
