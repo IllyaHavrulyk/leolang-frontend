@@ -1,0 +1,17 @@
+.gridOpened {
+  display: grid;
+  grid-template-columns: 13% 87%;
+  grid-template-rows: 100%;
+}
+
+.gridClosed {
+  display: grid;
+  grid-template-columns: 4% 96%;
+  grid-template-rows: 100%;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

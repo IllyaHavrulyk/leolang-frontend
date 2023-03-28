@@ -1,0 +1,42 @@
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    padding: 1.3rem 1.5rem;
+}
+
+.fromGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 38%;
+}
+
+.toGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 38%;
+}
+
+/*we dont use explicit classes for icons back in 'TranslatorControls.jsx' since className props are used by font-awesome*/
+.icons {
+    display: flex;
+    width: 30%;
+    justify-content: space-around;
+}
+i {
+    display: flex;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #9f9f9f;
+}
+
+select {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    background: none;
+}

@@ -97,3 +97,5 @@ export const countries = {
     "yi-YD": "Yiddish",
     "zu-ZA": "Zulu"
 }
+
+export default countries;
