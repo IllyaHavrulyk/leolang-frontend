@@ -11,7 +11,6 @@ function App() {
     setIsOpen(!isOpen);
   }
 
-
   return (
     <div className={isOpen ? appStyles.gridOpened : appStyles.gridClosed}>
       <Sidebar 
