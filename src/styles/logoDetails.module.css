@@ -1,0 +1,39 @@
+.details {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wrapper {
+    display: flex;
+    width: 0px;
+    align-items: center;
+    transform: translateX(-200px);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.opened {
+    transform:translateX(0px);
+    display: flex;
+    width: 200px;
+    opacity: 1;
+}
+
+.icon {
+    color: #fff;
+    height: 60px;
+    min-width: 50px;
+    font-size: 28px;
+    text-align: center;
+    line-height: 60px;
+  }
+
+.logoName {
+    height: auto;
+    width: auto;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+}

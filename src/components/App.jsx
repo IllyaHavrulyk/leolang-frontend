@@ -4,19 +4,20 @@ import Sidebar from './Sidebar';
 import Translator from './Translator';
 
 function App() {
-  const [open, setOpen] = React.useState('false'); //toggles sidebar status, if 'false' sidebar is closed; if 'true' sidebar is opened
+  const [isOpen, setIsOpen] = React.useState(false); //toggles sidebar status, if 'false' sidebar is closed; if 'true' sidebar is opened
   
   function handleOpen() {
-    setOpen(!open);
+    console.log('tick')
+    setIsOpen(!isOpen);
   }
 
-  const openContext = React.createContext(handleOpen);
-  
+
   return (
-    <div className={appStyles.gridOpened}>
-      <openContext.Provider>
-        <Sidebar/>
-      </openContext.Provider>
+    <div className={isOpen ? appStyles.gridOpened : appStyles.gridClosed}>
+      <Sidebar 
+        isOpen={isOpen}
+        handleOpen={handleOpen}
+      />
       <div className={appStyles.flexContainer}>
         <Translator/>
       </div>

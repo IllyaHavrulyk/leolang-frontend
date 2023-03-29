@@ -2,4 +2,7 @@
     background-color: #11101D;
     color: white;
     padding: 6px 14px;
+    transition: 500ms;
+    position: relative;
 }
+
