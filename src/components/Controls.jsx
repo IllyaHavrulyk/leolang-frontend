@@ -26,8 +26,8 @@ function TranslatorControls({
         <div className={controlsStyles.controls}>
             <div className={controlsStyles.fromGroup}>
                 <div className={controlsStyles.icons}>
-                    <i className="fas fa-volume-up"></i>
-                    <i className="fas fa-copy"></i>
+                    <i className={`fas fa-volume-up ${controlsStyles.iconButton}`}></i>
+                    <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
                 </div>
                 <select 
                     value={fromLanguage}
@@ -36,7 +36,7 @@ function TranslatorControls({
                     {fillLanguageOptions()}
                 </select>
             </div>
-            <i className="fas fa-exchange-alt" 
+            <i className={`fas fa-exchange-alt ${controlsStyles.iconButton}`} 
             onClick={e => (swapLanguages(fromLanguage, toLanguage))}></i>
             <div className={controlsStyles.toGroup}>
                 <select
@@ -46,8 +46,8 @@ function TranslatorControls({
                     {fillLanguageOptions()}
                 </select>
                 <div className={controlsStyles.icons}>
-                    <i className="fas fa-volume-up"></i>
-                    <i className="fas fa-copy"></i>
+                    <i className={`fas fa-volume-up ${controlsStyles.iconButton}`}></i>
+                    <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
                 </div>
             </div>
         </div>

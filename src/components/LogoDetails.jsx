@@ -7,7 +7,7 @@ function LogoDetails({isOpen, handleOpen}) {
   return (
     <div className={logoStyles.details}>
         <div className={`${logoStyles.wrapper} ${isOpen ? logoStyles.opened : null}`}>
-        <i className={`bx bxl-mastercard icon ${logoStyles.icon}`} />
+        <i className={`bx bxl-mastercard icon ${logoStyles.logo}`} />
         <span className={logoStyles.logoName}>LeoLang</span>
       </div>
       <i
