@@ -29,7 +29,7 @@ function Translator() {
                 target: "uk"
             }
         })
-
+        
         return translatedText.data.outputs[0].output;
     }
 
