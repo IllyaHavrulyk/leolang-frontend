@@ -1,6 +1,8 @@
 import React from 'react'
 import sidebarStyles from '../styles/sidebar.module.css';
 import LogoDetails from './LogoDetails';
+import NavBar from './NavBar';
+import NavItem from './NavItem';
 
 const navItems = [
     { icon: 'bx-user', shortName: 'User', name: 'User', itemRoute: '/user' },
@@ -20,6 +22,17 @@ function Sidebar({isOpen, handleOpen}) {
                 isOpen={isOpen}
                 handleOpen={handleOpen}    
             />
+            <NavBar>
+            {navItems.map((navItem) => (
+                <NavItem
+                    icon={navItem.icon}
+                    shortName={navItem.shortName}
+                    name={navItem.name}
+                    key={navItem.shortName}
+                    itemRoute={navItem.itemRoute}
+                />
+            ))}
+            </NavBar>
         </div>
     )
 }
