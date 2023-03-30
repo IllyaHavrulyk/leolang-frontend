@@ -20,7 +20,6 @@
     width: 38%;
 }
 
-/*we dont use explicit classes for icons back in 'TranslatorControls.jsx' since className props are used by font-awesome*/
 .icons {
     display: flex;
     width: 30%;

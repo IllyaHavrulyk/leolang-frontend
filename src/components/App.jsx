@@ -7,10 +7,8 @@ function App() {
   const [isOpen, setIsOpen] = React.useState(false); //toggles sidebar status, if 'false' sidebar is closed; if 'true' sidebar is opened
   
   function handleOpen() {
-    console.log('tick')
     setIsOpen(!isOpen);
   }
-
 
   return (
     <div className={isOpen ? appStyles.gridOpened : appStyles.gridClosed}>

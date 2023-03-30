@@ -9,8 +9,6 @@ function Translator() {
     const [fromLanguage, setFromlanguage] = React.useState('en-GB');
     const [toLanguage, setToLanguage] = React.useState('en-GB');
 
-    console.log('translator rendered')
-
     function handleSetFromLanguage(fromLanguage) {
         setFromlanguage(fromLanguage);
     }
@@ -32,7 +30,6 @@ function Translator() {
             }
         })
 
-        console.log(translatedText.data.outputs[0].output);
         return translatedText.data.outputs[0].output;
     }
 
