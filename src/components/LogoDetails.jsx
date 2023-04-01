@@ -3,7 +3,6 @@ import logoStyles from '../styles/logoDetails.module.css';
 import '../styles/logoDetails.module.css';
 
 function LogoDetails({isOpen, handleOpen}) {
-  console.log(isOpen, handleOpen)
   return (
     <div className={logoStyles.details}>
         <div className={`${logoStyles.wrapper} ${isOpen ? logoStyles.opened : null}`}>

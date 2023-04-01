@@ -1,0 +1,36 @@
+.navItem {
+    display: flex;
+    background-color: #11101D;
+    font-size: 18px;
+    margin: 0px;
+    padding: 0px;
+    width: auto;
+    margin: 8px 0px;
+    transition: all 500ms ease;
+    border-radius: 10px;
+}
+
+.navItem:hover {
+    color: black;
+    background-color: white;
+}
+
+.logo {
+    padding: 15px;
+    transition: all 500ms ease;
+    color: white;
+    align-self: center;
+}
+
+.navItem:hover .logo{
+    color: black;
+}
+
+.label {
+    padding: 15px 0px;
+    align-self: center;
+}
+
+.navItem:focus {
+    background-color: orange;
+}
