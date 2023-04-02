@@ -1,0 +1,18 @@
+:root, body {
+    background-color: #E4E9F7;
+    padding: 0px;
+    margin: 0px;
+    font-size: 10px;
+}
+
+*{
+    box-sizing: border-box;
+    font-family: "Poppins" , sans-serif;
+    height: 100%;
+}
+
+.root {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
