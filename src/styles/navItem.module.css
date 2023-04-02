@@ -5,7 +5,7 @@
     margin: 0px;
     padding: 0px;
     width: auto;
-    margin: 8px 0px;
+    margin: 8px 12px;
     transition: all 500ms ease;
     border-radius: 10px;
 }
@@ -16,7 +16,7 @@
 }
 
 .logo {
-    padding: 15px;
+    padding: 18px;
     transition: all 500ms ease;
     color: white;
     align-self: center;
@@ -29,6 +29,13 @@
 .label {
     padding: 15px 0px;
     align-self: center;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.opened {
+    opacity: 1;
+    transition: all 0.5s ease;
 }
 
 .navItem:focus {

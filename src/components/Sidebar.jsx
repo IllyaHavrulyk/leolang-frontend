@@ -1,8 +1,10 @@
 import React from 'react'
 import sidebarStyles from '../styles/sidebar.module.css';
+
 import LogoDetails from './LogoDetails';
 import NavBar from './NavBar';
 import NavItem from './NavItem';
+import Profile from './Profile';
 
 const navItems = [
     { icon: 'bx-user', shortName: 'User', name: 'User', itemRoute: '/user' },
@@ -30,9 +32,11 @@ function Sidebar({isOpen, handleOpen}) {
                     name={navItem.name}
                     key={navItem.shortName}
                     itemRoute={navItem.itemRoute}
+                    isOpen={isOpen}
                 />
             ))}
             </NavBar>
+            <Profile isOpen={isOpen}/>
         </div>
     )
 }
