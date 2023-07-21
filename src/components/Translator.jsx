@@ -14,8 +14,8 @@ function Translator() {
     return () => clearTimeout(timer);
   }, [debouncedText]);
 
-  const [fromLanguage, setFromlanguage] = React.useState("en-GB");
-  const [toLanguage, setToLanguage] = React.useState("en-GB");
+  const [fromLanguage, setFromlanguage] = React.useState("en");
+  const [toLanguage, setToLanguage] = React.useState("de");
 
   useEffect(() => {
     translateText(providedText, toLanguage).then((response) => {
