@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { translateText } from "../functions";
 import translatorStyles from "../styles/translator.module.css";
 import Controls from "./Controls";
 
 function Translator() {
-  const [textToTranslate, setTextToTranslate] = React.useState("");
+  const [providedText, setProvidedText] = React.useState("");
+  const [debouncedText, setDebouncedText] = React.useState("");
   const [fromLanguage, setFromlanguage] = React.useState("en-GB");
   const [toLanguage, setToLanguage] = React.useState("en-GB");
 
@@ -15,6 +16,12 @@ function Translator() {
     setToLanguage(toLanguage);
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => setProvidedText(debouncedText), 1000);
+    console.log(providedText);
+    return () => clearTimeout(timer);
+  }, [debouncedText]);
+
   return (
     <div className={translatorStyles.translator}>
       <div className={translatorStyles.wrapper}>
@@ -22,8 +29,8 @@ function Translator() {
           <textarea
             className={`${translatorStyles.textarea} ${translatorStyles.areaLeft}`}
             placeholder="Enter text"
-            value={textToTranslate}
-            onChange={(e) => setTextToTranslate(e.target.value)}
+            value={debouncedText}
+            onChange={(e) => setDebouncedText(e.target.value)}
           ></textarea>
           <textarea
             className={`${translatorStyles.textarea} ${translatorStyles.areaRight}`}
