@@ -1,13 +1,27 @@
 import React, { useEffect } from "react";
-import { translateText } from "../functions";
+import { translateText } from "./scripts/functions";
 import translatorStyles from "../styles/translator.module.css";
 import Controls from "./Controls";
 
 function Translator() {
   const [providedText, setProvidedText] = React.useState("");
   const [debouncedText, setDebouncedText] = React.useState("");
+  const [translatedText, setTranslatedText] = React.useState("");
+
+  useEffect(() => {
+    const newProvidedText = debouncedText.trim();
+    const timer = setTimeout(() => setProvidedText(newProvidedText), 1000);
+    return () => clearTimeout(timer);
+  }, [debouncedText]);
+
   const [fromLanguage, setFromlanguage] = React.useState("en-GB");
   const [toLanguage, setToLanguage] = React.useState("en-GB");
+
+  useEffect(() => {
+    translateText(providedText, toLanguage).then((response) => {
+      setTranslatedText(response);
+    });
+  }, [providedText, toLanguage]);
 
   function handleSetFromLanguage(fromLanguage) {
     setFromlanguage(fromLanguage);
@@ -15,12 +29,6 @@ function Translator() {
   function handleSetToLanguage(toLanguage) {
     setToLanguage(toLanguage);
   }
-
-  useEffect(() => {
-    const timer = setTimeout(() => setProvidedText(debouncedText), 1000);
-    console.log(providedText);
-    return () => clearTimeout(timer);
-  }, [debouncedText]);
 
   return (
     <div className={translatorStyles.translator}>
@@ -37,6 +45,7 @@ function Translator() {
             placeholder="Translation"
             readOnly={true}
             disabled={true}
+            value={translatedText}
           ></textarea>
         </div>
         <Controls
