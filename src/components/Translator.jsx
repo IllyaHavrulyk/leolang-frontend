@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { translateText } from "./scripts/functions";
+import React, { useEffect, useMemo } from "react";
+import { getTranslation } from "./scripts/functions";
 import translatorStyles from "../styles/translator.module.css";
 import Controls from "./Controls";
 
@@ -11,17 +11,20 @@ function Translator() {
   useEffect(() => {
     const newProvidedText = debouncedText.trim();
     const timer = setTimeout(() => setProvidedText(newProvidedText), 1000);
+
     return () => clearTimeout(timer);
   }, [debouncedText]);
 
   const [fromLanguage, setFromlanguage] = React.useState("en");
   const [toLanguage, setToLanguage] = React.useState("de");
 
-  useEffect(() => {
-    translateText(providedText, toLanguage).then((response) => {
-      setTranslatedText(response);
-    });
+  const translation = useMemo(() => {
+    getTranslation(providedText, toLanguage);
   }, [providedText, toLanguage]);
+
+  useEffect(() => {
+    setTranslatedText(translation);
+  }, [translation]);
 
   function handleSetFromLanguage(fromLanguage) {
     setFromlanguage(fromLanguage);
@@ -55,7 +58,6 @@ function Translator() {
           handleSetToLanguage={handleSetToLanguage}
         />
       </div>
-      <button onClick={translateText}>Translate Text</button>
     </div>
   );
 }

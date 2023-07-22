@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function translateText(providedText, targetLanguage) {
+export async function getTranslation(providedText, targetLanguage) {
   let translatedText = await axios({
     method: "post",
     url: "https://api-translate.systran.net/translation/text/translate",
@@ -10,7 +10,7 @@ export async function translateText(providedText, targetLanguage) {
     },
     data: {
       input: providedText,
-      target: "de",
+      target: targetLanguage,
     },
   });
 
