@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getTranslation } from "./scripts/functions";
+import { getTranslation } from "./scripts/translateRequest";
 import translatorStyles from "../styles/translator.module.css";
 import Controls from "./Controls";
 import Spinner from "./Spinner";
@@ -8,31 +8,38 @@ function Translator() {
   const [providedText, setProvidedText] = React.useState("");
   const [debouncedText, setDebouncedText] = React.useState("");
   const [translatedText, setTranslatedText] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+
+  const isLoading = React.useRef(false);
+  const isMounted = React.useRef(false);
 
   const [initialLanguage, setInitialLanguage] = React.useState("en");
   const [translationLanguage, setTranslationLanguage] = React.useState("de");
 
   useEffect(() => {
+    isLoading.current = true;
     const newProvidedText = debouncedText.trim();
     const timer = setTimeout(() => setProvidedText(newProvidedText), 1000);
-    setIsLoading(true);
-
     return () => clearTimeout(timer);
   }, [debouncedText]);
 
   useEffect(() => {
-    console.log("request sent");
-    getTranslation(providedText, translationLanguage)
-      .then((response) => {
-        setTranslatedText(response);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
-  }, [providedText, translationLanguage]);
+    console.log("request sent", isLoading.current);
+    if (providedText !== "" && providedText.length > 2) {
+      getTranslation(providedText, translationLanguage)
+        .then((response) => {
+          isLoading.current = false;
+          console.log(response);
+          setTranslatedText(response);
+        })
+        .catch((err) => {
+          isLoading.current = false;
+          console.log(err);
+          setTranslatedText("error");
+        });
+    } else {
+      isMounted.current = true;
+    }
+  }, [providedText, translationLanguage, isLoading, isMounted]);
 
   function handleSetInitialLanguage(initialLanguage) {
     setInitialLanguage(initialLanguage);
@@ -51,7 +58,7 @@ function Translator() {
             value={debouncedText}
             onChange={(e) => setDebouncedText(e.target.value)}
           ></textarea>
-          {isLoading ? (
+          {isLoading.current ? (
             <Spinner />
           ) : (
             <textarea
