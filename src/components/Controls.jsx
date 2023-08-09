@@ -4,10 +4,10 @@ import controlsStyles from "../styles/controls.module.css";
 import countries from "./scripts/countries";
 
 function TranslatorControls({
-  fromLanguage,
-  handleSetFromLanguage,
-  toLanguage,
-  handleSetToLanguage,
+  sourceLanguage,
+  handleSetSourceLanguage,
+  targetLanguage,
+  handleSetTargetLanguage,
 }) {
   function fillLanguageOptions() {
     return Object.keys(countries).map((country_code) => {
@@ -20,8 +20,8 @@ function TranslatorControls({
   }
 
   function swapLanguages(fromLang, toLang) {
-    handleSetToLanguage(fromLang);
-    handleSetFromLanguage(toLang);
+    handleSetTargetLanguage(fromLang);
+    handleSetSourceLanguage(toLang);
   }
 
   return (
@@ -32,21 +32,21 @@ function TranslatorControls({
           <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
         </div>
         <select
-          value={fromLanguage}
-          onChange={(e) => handleSetFromLanguage(e.target.value)}
+          value={sourceLanguage}
+          onChange={(e) => handleSetSourceLanguage(e.target.value)}
         >
           {fillLanguageOptions()}
         </select>
       </div>
       <i
         className={`fas fa-exchange-alt ${controlsStyles.iconButton}`}
-        onClick={(e) => swapLanguages(fromLanguage, toLanguage)}
+        onClick={(e) => swapLanguages(sourceLanguage, targetLanguage)}
       ></i>
       <div className={controlsStyles.toGroup}>
         <select
-          value={toLanguage}
+          value={targetLanguage}
           onChange={(e) => {
-            handleSetToLanguage(e.target.value);
+            handleSetTargetLanguage(e.target.value);
           }}
         >
           {fillLanguageOptions()}

@@ -10,22 +10,24 @@ function Translator() {
   const [translatedText, setTranslatedText] = React.useState("");
 
   const isLoading = React.useRef(false);
+
   const isMounted = React.useRef(false);
 
-  const [initialLanguage, setInitialLanguage] = React.useState("en");
-  const [translationLanguage, setTranslationLanguage] = React.useState("de");
+  const [sourceLanguage, setSourceLanguage] = React.useState("en");
+  const [targetLanguage, setTargetLanguage] = React.useState("de");
 
   useEffect(() => {
-    isLoading.current = true;
     const newProvidedText = debouncedText.trim();
-    const timer = setTimeout(() => setProvidedText(newProvidedText), 1000);
+    if (!!newProvidedText) {
+      isLoading.current = true;
+    }
+    const timer = setTimeout(() => setProvidedText(newProvidedText), 500);
     return () => clearTimeout(timer);
   }, [debouncedText]);
 
   useEffect(() => {
-    console.log("request sent", isLoading.current);
     if (providedText !== "" && providedText.length > 2) {
-      getTranslation(providedText, translationLanguage)
+      getTranslation(providedText, targetLanguage)
         .then((response) => {
           isLoading.current = false;
           console.log(response);
@@ -33,19 +35,18 @@ function Translator() {
         })
         .catch((err) => {
           isLoading.current = false;
-          console.log(err);
           setTranslatedText("error");
         });
     } else {
       isMounted.current = true;
     }
-  }, [providedText, translationLanguage, isLoading, isMounted]);
+  }, [providedText, targetLanguage]);
 
-  function handleSetInitialLanguage(initialLanguage) {
-    setInitialLanguage(initialLanguage);
+  function handleSetSourceLanguage(sourceLanguage) {
+    setSourceLanguage(sourceLanguage);
   }
-  function handleSetTranslationLanguage(toLanguage) {
-    setTranslationLanguage(toLanguage);
+  function handleSetTargetLanguage(targetLanguage) {
+    setTargetLanguage(targetLanguage);
   }
 
   return (
@@ -71,10 +72,10 @@ function Translator() {
           )}
         </div>
         <Controls
-          fromLanguage={initialLanguage}
-          handleSetFromLanguage={handleSetInitialLanguage}
-          toLanguage={translationLanguage}
-          handleSetToLanguage={handleSetTranslationLanguage}
+          sourceLanguage={sourceLanguage}
+          handleSetSourceLanguage={handleSetSourceLanguage}
+          targetLanguage={targetLanguage}
+          handleSetTargetLanguage={handleSetTargetLanguage}
         />
       </div>
     </div>
