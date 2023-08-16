@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import { getTranslation } from "./scripts/translateRequest";
-import translatorStyles from "../styles/translator.module.css";
-import Controls from "./Controls";
-import Spinner from "./Spinner";
+import { getTranslation } from "../../scripts/translateRequest";
+import translatorStyles from "./translator.module.css";
+
+import Textarea from "./textarea/Textarea";
+import Controls from "./controls/Controls";
+import Spinner from "./spinner/Spinner";
 
 function Translator() {
-  const [providedText, setProvidedText] = React.useState("");
   const [debouncedText, setDebouncedText] = React.useState("");
   const [translatedText, setTranslatedText] = React.useState("");
 
   const isLoading = React.useRef(false);
-
   const isMounted = React.useRef(false);
 
   const [sourceLanguage, setSourceLanguage] = React.useState("en");
@@ -18,64 +18,62 @@ function Translator() {
 
   useEffect(() => {
     const newProvidedText = debouncedText.trim();
-    if (!!newProvidedText) {
+
+    if (newProvidedText !== "") {
       isLoading.current = true;
     }
-    const timer = setTimeout(() => setProvidedText(newProvidedText), 500);
+
+    const timer = setTimeout(() => {
+      if (isMounted.current) {
+        getTranslation(newProvidedText, targetLanguage)
+          .then((response) => {
+            isLoading.current = false;
+            setTranslatedText(response);
+          })
+          .catch((err) => {
+            isLoading.current = false;
+            console.error(err);
+            if (newProvidedText === "") {
+              setTranslatedText("nothing to translate");
+            } else {
+              setTranslatedText("Error in translation");
+            }
+          });
+      } else {
+        isMounted.current = true;
+      }
+    }, 500);
+
     return () => clearTimeout(timer);
-  }, [debouncedText]);
-
-  useEffect(() => {
-    if (providedText !== "" && providedText.length > 2) {
-      getTranslation(providedText, targetLanguage)
-        .then((response) => {
-          isLoading.current = false;
-          console.log(response);
-          setTranslatedText(response);
-        })
-        .catch((err) => {
-          isLoading.current = false;
-          setTranslatedText("error");
-        });
-    } else {
-      isMounted.current = true;
-    }
-  }, [providedText, targetLanguage]);
-
-  function handleSetSourceLanguage(sourceLanguage) {
-    setSourceLanguage(sourceLanguage);
-  }
-  function handleSetTargetLanguage(targetLanguage) {
-    setTargetLanguage(targetLanguage);
-  }
+  }, [debouncedText, targetLanguage]);
 
   return (
     <div className={translatorStyles.translator}>
       <div className={translatorStyles.wrapper}>
         <div className={translatorStyles.textinput}>
-          <textarea
+          <Textarea
             className={`${translatorStyles.textarea} ${translatorStyles.areaLeft}`}
             placeholder="Enter text"
             value={debouncedText}
             onChange={(e) => setDebouncedText(e.target.value)}
-          ></textarea>
+          ></Textarea>
           {isLoading.current ? (
             <Spinner />
           ) : (
-            <textarea
+            <Textarea
               className={`${translatorStyles.textarea} ${translatorStyles.areaRight}`}
               placeholder="Translation"
               readOnly={true}
               disabled={true}
               value={translatedText}
-            ></textarea>
+            ></Textarea>
           )}
         </div>
         <Controls
           sourceLanguage={sourceLanguage}
-          handleSetSourceLanguage={handleSetSourceLanguage}
+          handleSetSourceLanguage={setSourceLanguage}
           targetLanguage={targetLanguage}
-          handleSetTargetLanguage={handleSetTargetLanguage}
+          handleSetTargetLanguage={setTargetLanguage}
         />
       </div>
     </div>

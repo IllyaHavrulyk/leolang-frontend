@@ -1,7 +1,7 @@
 import React from "react";
 
-import controlsStyles from "../styles/controls.module.css";
-import countries from "./scripts/countries";
+import controlsStyles from "./controls.module.css";
+import countries from "../../../scripts/countries";
 
 function TranslatorControls({
   sourceLanguage,
