@@ -9,8 +9,8 @@ import Spinner from "./spinner/Spinner";
 function Translator() {
   const [debouncedText, setDebouncedText] = React.useState("");
   const [translatedText, setTranslatedText] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const isLoading = React.useRef(false);
   const isMounted = React.useRef(false);
 
   const [sourceLanguage, setSourceLanguage] = React.useState("en");
@@ -19,25 +19,22 @@ function Translator() {
   useEffect(() => {
     const newProvidedText = debouncedText.trim();
 
-    if (newProvidedText !== "") {
-      isLoading.current = true;
-    }
-
     const timer = setTimeout(() => {
       if (isMounted.current) {
         getTranslation(newProvidedText, targetLanguage)
           .then((response) => {
-            isLoading.current = false;
             setTranslatedText(response);
           })
           .catch((err) => {
-            isLoading.current = false;
             console.error(err);
             if (newProvidedText === "") {
               setTranslatedText("nothing to translate");
             } else {
               setTranslatedText("Error in translation");
             }
+          })
+          .finally(() => {
+            setIsLoading(false);
           });
       } else {
         isMounted.current = true;
@@ -45,7 +42,7 @@ function Translator() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [debouncedText, targetLanguage]);
+  }, [debouncedText, targetLanguage, isLoading]);
 
   return (
     <div className={translatorStyles.translator}>
@@ -55,9 +52,12 @@ function Translator() {
             className={`${translatorStyles.textarea} ${translatorStyles.areaLeft}`}
             placeholder="Enter text"
             value={debouncedText}
-            onChange={(e) => setDebouncedText(e.target.value)}
+            onChange={(e) => {
+              setIsLoading(true);
+              setDebouncedText(e.target.value);
+            }}
           ></Textarea>
-          {isLoading.current ? (
+          {isLoading ? (
             <Spinner />
           ) : (
             <Textarea
