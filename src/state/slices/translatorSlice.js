@@ -1,22 +1,56 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getTranslation } from "../../scripts/translateRequest";
 
-const fetchTranslation = createAsyncThunk("Translator/fetchTranslation");
+export const fetchTranslation = createAsyncThunk(
+  "Translator/fetchTranslation",
+  async ({ sourceText, targetLang }, thunkAPI) => {
+    const response = await getTranslation(sourceText, targetLang);
+    return response;
+  }
+);
 
 const options = {
-  name: "Translator",
+  name: "translator",
   initialState: {
     debouncedText: "",
     translatedText: "",
     isLoading: false,
-    sourceLang: "en",
-    targetLang: "de",
+    languages: {
+      sourceLang: "en",
+      targetLang: "de",
+    },
   },
   reducers: {
+    setDebouncedText: (state, action) => {
+      state.debouncedText = action.payload;
+    },
     setSourceLang: (state, action) => {
-      state.sourceLang = action.payload;
+      state.languages.sourceLang = action.payload;
     },
     setTargetLang: (state, action) => {
-      state.targetLang = action.payload;
+      state.languages.targetLang = action.payload;
+    },
+    toggleLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+  },
+  extraReducers: {
+    [fetchTranslation.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [fetchTranslation.fulfilled]: (state, action) => {
+      state.translatedText = action.payload;
+      state.isLoading = false;
+    },
+    [fetchTranslation.rejected]: (state, action) => {
+      state.isLoading = false;
     },
   },
 };
+
+const translatorSlice = createSlice(options);
+
+export default translatorSlice.reducer;
+
+export const { setSourceLang, setTargetLang, toggleLoading, setDebouncedText } =
+  translatorSlice.actions;
