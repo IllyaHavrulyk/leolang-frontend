@@ -8,8 +8,20 @@ import {
   setTargetLang,
 } from "../../../state/slices/translatorSlice";
 
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 function TranslatorControls() {
   const languages = useSelector((state) => state.translator.languages);
+  const sourceText = useSelector((state) => state.translator.debouncedText);
+  const translatedText = useSelector(
+    (state) => state.translator.translatedText
+  );
 
   const dispatch = useDispatch();
 
@@ -33,7 +45,13 @@ function TranslatorControls() {
       <div className={controlsStyles.fromGroup}>
         <div className={controlsStyles.icons}>
           <i className={`fas fa-volume-up ${controlsStyles.iconButton}`}></i>
-          <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
+          <i
+            className={`fas fa-copy ${controlsStyles.iconButton}`}
+            onClick={() => {
+              console.log(sourceText);
+              copyToClipboard(sourceText);
+            }}
+          ></i>
         </div>
         <select
           value={languages.sourceLang}
@@ -55,7 +73,10 @@ function TranslatorControls() {
         </select>
         <div className={controlsStyles.icons}>
           <i className={`fas fa-volume-up ${controlsStyles.iconButton}`}></i>
-          <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
+          <i
+            className={`fas fa-copy ${controlsStyles.iconButton}`}
+            onClick={() => copyToClipboard(translatedText)}
+          ></i>
         </div>
       </div>
     </div>
