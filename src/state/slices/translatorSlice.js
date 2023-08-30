@@ -24,6 +24,9 @@ const options = {
     setDebouncedText: (state, action) => {
       state.debouncedText = action.payload;
     },
+    setTranslatedText: (state, action) => {
+      state.translatedText = action.payload;
+    },
     setSourceLang: (state, action) => {
       state.languages.sourceLang = action.payload;
     },
@@ -44,6 +47,7 @@ const options = {
     },
     [fetchTranslation.rejected]: (state, action) => {
       state.isLoading = false;
+      state.translatedText = "";
     },
   },
 };
@@ -52,5 +56,10 @@ const translatorSlice = createSlice(options);
 
 export default translatorSlice.reducer;
 
-export const { setSourceLang, setTargetLang, toggleLoading, setDebouncedText } =
-  translatorSlice.actions;
+export const {
+  setSourceLang,
+  setTargetLang,
+  toggleLoading,
+  setDebouncedText,
+  setTranslatedText,
+} = translatorSlice.actions;

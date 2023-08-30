@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { getTranslation } from "../../scripts/translateRequest";
 import translatorStyles from "./translator.module.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
   toggleLoading,
   setDebouncedText,
+  setTranslatedText,
 } from "../../state/slices/translatorSlice";
 import { fetchTranslation } from "../../state/slices/translatorSlice";
 
@@ -28,11 +28,14 @@ function Translator() {
   useEffect(() => {
     const sourceText = debouncedText.trim();
 
+    const validText = sourceText !== "" && sourceText.length > 2;
+
     const timer = setTimeout(() => {
-      if (isMounted.current) {
+      if (isMounted.current && validText) {
         dispatch(fetchTranslation({ sourceText, targetLang }));
       } else {
         isMounted.current = true;
+        dispatch(setTranslatedText("Nothing to translate"));
       }
     }, 500);
 
