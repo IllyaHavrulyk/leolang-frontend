@@ -2,13 +2,17 @@ import React from "react";
 
 import controlsStyles from "./controls.module.css";
 import countries from "../../../scripts/countries";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setSourceLang,
+  setTargetLang,
+} from "../../../state/slices/translatorSlice";
 
-function TranslatorControls({
-  sourceLanguage,
-  handleSetSourceLanguage,
-  targetLanguage,
-  handleSetTargetLanguage,
-}) {
+function TranslatorControls() {
+  const languages = useSelector((state) => state.translator.languages);
+
+  const dispatch = useDispatch();
+
   function fillLanguageOptions() {
     return Object.keys(countries).map((country_code) => {
       return (
@@ -19,9 +23,9 @@ function TranslatorControls({
     });
   }
 
-  function swapLanguages(fromLang, toLang) {
-    handleSetTargetLanguage(fromLang);
-    handleSetSourceLanguage(toLang);
+  function swapLanguages(languages) {
+    dispatch(setTargetLang(languages.fromLang));
+    dispatch(setSourceLang(languages.toLang));
   }
 
   return (
@@ -32,22 +36,20 @@ function TranslatorControls({
           <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
         </div>
         <select
-          value={sourceLanguage}
-          onChange={(e) => handleSetSourceLanguage(e.target.value)}
+          value={languages.sourceLang}
+          onChange={(e) => dispatch(setSourceLang(e.target.value))}
         >
           {fillLanguageOptions()}
         </select>
       </div>
       <i
         className={`fas fa-exchange-alt ${controlsStyles.iconButton}`}
-        onClick={(e) => swapLanguages(sourceLanguage, targetLanguage)}
+        onClick={(e) => swapLanguages(languages)}
       ></i>
       <div className={controlsStyles.toGroup}>
         <select
-          value={targetLanguage}
-          onChange={(e) => {
-            handleSetTargetLanguage(e.target.value);
-          }}
+          value={languages.targetLang}
+          onChange={(e) => dispatch(setTargetLang(e.target.value))}
         >
           {fillLanguageOptions()}
         </select>
