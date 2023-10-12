@@ -29,11 +29,11 @@ function Translator() {
     const sourceText = debouncedText.trim();
 
     const validText = sourceText !== "" && sourceText.length > 2;
-
     const timer = setTimeout(() => {
-      if (isMounted.current && validText) {
+      if (validText && isMounted.current) {
         dispatch(fetchTranslation({ sourceText, targetLang }));
       } else {
+        console.log("dispatch branch");
         isMounted.current = true;
         dispatch(setTranslatedText("Nothing to translate"));
       }

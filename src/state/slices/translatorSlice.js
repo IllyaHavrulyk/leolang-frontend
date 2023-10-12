@@ -25,6 +25,7 @@ const options = {
       state.debouncedText = action.payload;
     },
     setTranslatedText: (state, action) => {
+      state.isLoading = false;
       state.translatedText = action.payload;
     },
     setSourceLang: (state, action) => {
