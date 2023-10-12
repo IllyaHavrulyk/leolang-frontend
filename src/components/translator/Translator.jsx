@@ -40,7 +40,7 @@ function Translator() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [debouncedText]);
+  }, [debouncedText, targetLang]);
 
   return (
     <div className={translatorStyles.translator}>
