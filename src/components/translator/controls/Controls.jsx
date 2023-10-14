@@ -1,5 +1,4 @@
 import React from "react";
-
 import controlsStyles from "./controls.module.css";
 import countries from "../../../scripts/countries";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,8 +7,26 @@ import {
   setTargetLang,
 } from "../../../state/slices/translatorSlice";
 
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function sayText(text, lang) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  speechSynthesis.speak(utterance);
+}
+
 function TranslatorControls() {
   const languages = useSelector((state) => state.translator.languages);
+  const sourceText = useSelector((state) => state.translator.debouncedText);
+  const translatedText = useSelector(
+    (state) => state.translator.translatedText
+  );
 
   const dispatch = useDispatch();
 
@@ -32,8 +49,16 @@ function TranslatorControls() {
     <div className={controlsStyles.controls}>
       <div className={controlsStyles.fromGroup}>
         <div className={controlsStyles.icons}>
-          <i className={`fas fa-volume-up ${controlsStyles.iconButton}`}></i>
-          <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
+          <i
+            className={`fas fa-volume-up ${controlsStyles.iconButton}`}
+            onClick={() => sayText(sourceText, languages.sourceLang)}
+          ></i>
+          <i
+            className={`fas fa-copy ${controlsStyles.iconButton}`}
+            onClick={() => {
+              copyToClipboard(sourceText);
+            }}
+          ></i>
         </div>
         <select
           value={languages.sourceLang}
@@ -54,8 +79,14 @@ function TranslatorControls() {
           {fillLanguageOptions()}
         </select>
         <div className={controlsStyles.icons}>
-          <i className={`fas fa-volume-up ${controlsStyles.iconButton}`}></i>
-          <i className={`fas fa-copy ${controlsStyles.iconButton}`}></i>
+          <i
+            className={`fas fa-volume-up ${controlsStyles.iconButton}`}
+            onClick={() => sayText(translatedText, languages.targetLang)}
+          ></i>
+          <i
+            className={`fas fa-copy ${controlsStyles.iconButton}`}
+            onClick={() => copyToClipboard(translatedText)}
+          ></i>
         </div>
       </div>
     </div>
