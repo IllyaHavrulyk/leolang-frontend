@@ -6,7 +6,7 @@ export async function getTranslation(providedText, targetLanguage) {
     url: "https://api-translate.systran.net/translation/text/translate",
     responseType: "json",
     headers: {
-      Authorization: "Key c9fe10f4-1dba-4d97-adb9-5b15b7d660c2",
+      Authorization: "Key 1469c961-6944-4daa-8ff2-fa485806c79e",
     },
     data: {
       input: providedText,
