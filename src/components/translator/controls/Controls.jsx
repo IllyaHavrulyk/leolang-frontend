@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setSourceLang,
   setTargetLang,
+  setDebouncedText,
+  setTranslatedText,
 } from "../../../state/slices/translatorSlice";
 
 async function copyToClipboard(text) {
@@ -41,8 +43,11 @@ function TranslatorControls() {
   }
 
   function swapLanguages(languages) {
-    dispatch(setTargetLang(languages.fromLang));
-    dispatch(setSourceLang(languages.toLang));
+    dispatch(setTargetLang(languages.sourceLang));
+    dispatch(setSourceLang(languages.targetLang));
+    const newDebouncedText = translatedText;
+    dispatch(setTranslatedText(""));
+    dispatch(setDebouncedText(newDebouncedText));
   }
 
   return (
