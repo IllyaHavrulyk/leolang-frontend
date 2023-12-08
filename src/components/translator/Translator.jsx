@@ -33,7 +33,6 @@ function Translator() {
       if (validText && isMounted.current) {
         dispatch(fetchTranslation({ sourceText, targetLang }));
       } else {
-        console.log("dispatch branch");
         isMounted.current = true;
         dispatch(setTranslatedText("Nothing to translate"));
       }
@@ -45,6 +44,7 @@ function Translator() {
   return (
     <div className={translatorStyles.translator}>
       <div className={translatorStyles.wrapper}>
+        <Controls />
         <div className={translatorStyles.textinput}>
           <Textarea
             className={`${translatorStyles.textarea} ${translatorStyles.areaLeft}`}
@@ -67,7 +67,6 @@ function Translator() {
             ></Textarea>
           )}
         </div>
-        <Controls />
       </div>
     </div>
   );
