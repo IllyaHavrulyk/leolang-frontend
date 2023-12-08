@@ -37,6 +37,13 @@ const options = {
     toggleLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    swapLanguages: (state, action) => {
+      const tempLang = state.languages.sourceLang;
+      state.languages.sourceLang = state.languages.targetLang;
+      state.languages.targetLang = tempLang;
+      state.debouncedText = action.payload;
+      state.translatedText = "";
+    },
   },
   extraReducers: {
     [fetchTranslation.pending]: (state, action) => {
@@ -63,4 +70,5 @@ export const {
   toggleLoading,
   setDebouncedText,
   setTranslatedText,
+  swapLanguages,
 } = translatorSlice.actions;

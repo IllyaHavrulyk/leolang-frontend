@@ -1,0 +1,7 @@
+.iconButton {
+    display: flex;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #9f9f9f;
+}

@@ -1,4 +1,4 @@
-export const countries = {
+export const languages = {
   am: "Amharic",
   ar: "Arabic",
   be: "Bielarus",
@@ -98,4 +98,12 @@ export const countries = {
   zu: "Zulu",
 };
 
-export default countries;
+export function fillLanguageOptions() {
+  return Object.keys(languages).map((language_code) => {
+    return (
+      <option value={language_code} key={language_code}>
+        {languages[language_code]}
+      </option>
+    );
+  });
+}

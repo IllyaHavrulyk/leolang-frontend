@@ -21,19 +21,6 @@
     width: 38%;
 }
 
-.icons {
-    display: flex;
-    width: 30%;
-    justify-content: space-around;
-}
-.iconButton {
-    display: flex;
-    justify-content: center;
-    font-size: 1.4rem;
-    cursor: pointer;
-    color: #9f9f9f;
-}
-
 select {
     border: none;
     outline: none;

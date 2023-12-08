@@ -1,14 +1,12 @@
 import React, { useCallback } from "react";
 import controlsStyles from "./controls.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import ControlBtns from "./controlBtns/ControlBtns";
-import LanguagesDropdown from "./languagesDropdown/LanguagesDropdown";
-import SwapLanguagesBtn from "./swapLanguagesBtn/SwapLanguagesBtn";
+import TranslatorActions from "../../translatorActions/TranslatorActions";
+import LanguagesDropdown from "../../languagesDropdown/LanguagesDropdown";
+import SwapLanguagesBtn from "../../swapLanguagesBtn/SwapLanguagesBtn";
 import {
   setSourceLang,
   setTargetLang,
-  setDebouncedText,
-  setTranslatedText,
 } from "../../../state/slices/translatorSlice";
 
 function TranslatorControls() {
@@ -33,19 +31,22 @@ function TranslatorControls() {
   return (
     <div className={controlsStyles.controls}>
       <div className={controlsStyles.fromGroup}>
-        <ControlBtns text={sourceText} language={languages.sourceLang} />
+        <TranslatorActions text={sourceText} language={languages.sourceLang} />
         <LanguagesDropdown
           language={languages.sourceLang}
           handleChange={handleSelectLeft}
         />
       </div>
-      <SwapLanguagesBtn languages={languages} translatedText={translatedText} />
+      <SwapLanguagesBtn translatedText={translatedText} />
       <div className={controlsStyles.toGroup}>
         <LanguagesDropdown
           language={languages.targetLang}
           handleChange={handleSelectRight}
         />
-        <ControlBtns text={translatedText} language={languages.targetLang} />
+        <TranslatorActions
+          text={translatedText}
+          language={languages.targetLang}
+        />
       </div>
     </div>
   );
