@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export async function getTranslation(providedText, targetLanguage) {
+export async function getTranslation(providedText, targetLanguage, sourceLanguage) {
+  console.log(`inside of getTranslation function: ${providedText}, ${targetLanguage}`);
   let translatedText = await axios({
     method: "post",
     url: "http://localhost:8080/translations/translate",
@@ -8,8 +9,11 @@ export async function getTranslation(providedText, targetLanguage) {
     data: {
       input: [providedText],
       target: targetLanguage,
+      source: sourceLanguage,
     },
   });
+
+  console.log(translatedText);
 
   return translatedText.data.outputs[0].output;
 }

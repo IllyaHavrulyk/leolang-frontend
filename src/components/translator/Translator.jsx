@@ -1,72 +1,79 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import translatorStyles from "./translator.module.css";
 
 import { useSelector, useDispatch } from "react-redux";
+
 import {
-  toggleLoading,
   setDebouncedText,
   setTranslatedText,
+  fetchTranslation,
+  setSourceLang,
+  setTargetLang,
 } from "../../state/slices/translatorSlice";
-import { fetchTranslation } from "../../state/slices/translatorSlice";
 
-import Textarea from "./textarea/Textarea";
-import Controls from "./controls/Controls";
-import Spinner from "./spinner/Spinner";
+import TextInteractionPanel from "./textInteractionPanel/TextInteractionPanel";
+import SwapLanguagesBtn from "../../components/swapLanguagesBtn/SwapLanguagesBtn";
 
 function Translator() {
   const debouncedText = useSelector((state) => state.translator.debouncedText);
-  const translatedText = useSelector(
-    (state) => state.translator.translatedText
-  );
-  const isLoading = useSelector((state) => state.translator.isLoading);
-  const { targetLang } = useSelector((state) => state.translator.languages);
+  const translatedText = useSelector((state) => state.translator.translatedText);
+  const targetPanelPlaceholder = useSelector((state) => state.translator.targetPanelPlaceholder);
 
-  const isMounted = React.useRef(false);
+  const isLoading = useSelector((state) => state.translator.isLoading);
+  const { targetLang, sourceLang } = useSelector((state) => state.translator.languages);
 
   const dispatch = useDispatch();
 
+  const handleSelectLeft = useCallback((e) => dispatch(setSourceLang(e.target.value)), []);
+  const handleSelectRight = useCallback((e) => dispatch(setTargetLang(e.target.value)), []);
+
   useEffect(() => {
-    const sourceText = debouncedText.trim();
+    if (debouncedText) {
+      const sourceText = debouncedText.trim();
+      console.log("effect fired");
+      const timer = setTimeout(
+        () => handeTranslationRequest(sourceText, targetLang, sourceLang),
+        500
+      );
 
-    const validText = sourceText !== "" && sourceText.length > 2;
-    const timer = setTimeout(() => {
-      if (validText && isMounted.current) {
-        dispatch(fetchTranslation({ sourceText, targetLang }));
-      } else {
-        isMounted.current = true;
-        dispatch(setTranslatedText("Nothing to translate"));
-      }
-    }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [debouncedText, targetLang, sourceLang]);
 
-    return () => clearTimeout(timer);
-  }, [debouncedText, targetLang]);
+  const handeTranslationRequest = (text, targetLanguage, sourceLanguage) => {
+    const validText = text !== "" && text.length > 2;
+    console.log(`${validText} inside of translation request function`);
+
+    if (validText) {
+      dispatch(fetchTranslation({ text, targetLanguage, sourceLanguage }));
+    } else {
+      dispatch(setTranslatedText("Nothing to translate"));
+    }
+  };
 
   return (
     <div className={translatorStyles.translator}>
       <div className={translatorStyles.wrapper}>
-        <Controls />
-        <div className={translatorStyles.textinput}>
-          <Textarea
-            className={`${translatorStyles.textarea} ${translatorStyles.areaLeft}`}
-            placeholder="Enter text"
-            value={debouncedText}
-            onChange={(e) => {
-              dispatch(setDebouncedText(e.target.value));
-              dispatch(toggleLoading(true));
-            }}
-          ></Textarea>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <Textarea
-              className={`${translatorStyles.textarea} ${translatorStyles.areaRight}`}
-              placeholder="Translation"
-              readOnly={true}
-              disabled={true}
-              value={translatedText}
-            ></Textarea>
-          )}
-        </div>
+        <TextInteractionPanel
+          placeholder="Enter text"
+          value={debouncedText}
+          handleDebouncing={(e) => {
+            console.log("text handling function fired");
+            dispatch(setDebouncedText(e.target.value));
+          }}
+          handleSelect={handleSelectLeft}
+          isOutput={false}
+          language={sourceLang}
+        />
+        <SwapLanguagesBtn />
+        <TextInteractionPanel
+          placeholder={targetPanelPlaceholder}
+          isOutput={true}
+          value={translatedText}
+          isLoading={isLoading}
+          handleSelect={handleSelectRight}
+          language={targetLang}
+        />
       </div>
     </div>
   );

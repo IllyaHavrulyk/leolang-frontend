@@ -2,7 +2,7 @@ import React from "react";
 import actionStyles from "./actions.module.css";
 import { copyToClipboard, sayText } from "../../scripts/actionBtnFunctions";
 
-function TranslatorActions({ text, language }) {
+function TranslatorBtns({ text, language }) {
   return (
     <div className={actionStyles.icons}>
       <i
@@ -19,4 +19,4 @@ function TranslatorActions({ text, language }) {
   );
 }
 
-export default React.memo(TranslatorActions);
+export default React.memo(TranslatorBtns);

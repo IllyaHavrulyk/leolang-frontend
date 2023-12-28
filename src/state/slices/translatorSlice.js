@@ -3,8 +3,13 @@ import { getTranslation } from "../../scripts/translateRequest";
 
 export const fetchTranslation = createAsyncThunk(
   "Translator/fetchTranslation",
-  async ({ sourceText, targetLang }, thunkAPI) => {
-    const response = await getTranslation(sourceText, targetLang);
+  async ({ text, targetLanguage, sourceLanguage }, thunkAPI) => {
+    let response = "";
+    try {
+      response = await getTranslation(text, targetLanguage, sourceLanguage);
+    } catch (error) {
+      console.log(error);
+    }
     return response;
   }
 );
@@ -19,10 +24,17 @@ const options = {
       sourceLang: "en",
       targetLang: "de",
     },
+    targetPanelPlaceholder: "Translation",
   },
   reducers: {
     setDebouncedText: (state, action) => {
       state.debouncedText = action.payload;
+      if (action.payload === "") {
+        state.isLoading = false;
+        state.targetPanelPlaceholder = "Nothing to translate";
+      } else {
+        state.isLoading = true;
+      }
     },
     setTranslatedText: (state, action) => {
       state.isLoading = false;
@@ -34,15 +46,15 @@ const options = {
     setTargetLang: (state, action) => {
       state.languages.targetLang = action.payload;
     },
-    toggleLoading: (state, action) => {
-      state.isLoading = action.payload;
-    },
-    swapLanguages: (state, action) => {
+    swapPanelsContent: (state, action) => {
       const tempLang = state.languages.sourceLang;
       state.languages.sourceLang = state.languages.targetLang;
       state.languages.targetLang = tempLang;
+
       state.debouncedText = action.payload;
-      state.translatedText = "";
+    },
+    setTargetPanelPlaceholder: (state, action) => {
+      state.targetPanelPlaceholder = action.payload;
     },
   },
   extraReducers: {
@@ -50,12 +62,14 @@ const options = {
       state.isLoading = true;
     },
     [fetchTranslation.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.translatedText = action.payload;
       state.isLoading = false;
     },
     [fetchTranslation.rejected]: (state, action) => {
+      console.log("translation fetching failed");
       state.isLoading = false;
-      state.translatedText = "";
+      state.translatedText = "translation failed";
     },
   },
 };
@@ -67,8 +81,7 @@ export default translatorSlice.reducer;
 export const {
   setSourceLang,
   setTargetLang,
-  toggleLoading,
   setDebouncedText,
   setTranslatedText,
-  swapLanguages,
+  swapPanelsContent,
 } = translatorSlice.actions;
