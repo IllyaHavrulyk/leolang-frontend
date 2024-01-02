@@ -9,10 +9,11 @@
   padding: 15px 30px 30px 30px;
 }
 .wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   border-radius: 7px;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 45% 10% 45%;
+  width: 100%;
 }
 
 @media all and (max-width: 480px) {
