@@ -1,0 +1,18 @@
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    padding-bottom: 1.3rem;
+}
+
+.controlsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+@media all and (max-width: 480px) {
+    .controlsContainer {
+        padding: 0px;
+    }
+}
