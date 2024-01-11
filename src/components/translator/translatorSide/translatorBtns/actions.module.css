@@ -16,6 +16,10 @@
     color: white;
 }
 
+.leftSide {
+    order: 1;
+}
+
 @media all and (max-width: 480px) {
     .controls {
         display: flex;

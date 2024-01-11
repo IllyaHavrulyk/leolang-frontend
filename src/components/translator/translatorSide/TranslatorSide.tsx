@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./textPanel.module.css";
-import TranslatorBtns from "../translatorBtns/TranslatorBtns";
+import TranslatorBtns from "./translatorBtns/TranslatorBtns";
 import LanguagesDropdown from "./languagesDropdown/LanguagesDropdown";
 
 import Textarea from "../textarea/Textarea";
@@ -30,7 +30,7 @@ function TranslatorSide({
   return (
     <div className={styles.controlsContainer}>
       <div className={styles.controls}>
-        <TranslatorBtns text={value} language={language} />
+        <TranslatorBtns text={value} language={language} isOutput={isOutput}/>
         <LanguagesDropdown language={language} handleChange={handleSelect} />
       </div>
       {isLoading ? (
