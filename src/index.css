@@ -28,3 +28,7 @@ select {
   font-size: 18px;
   background: none;
 }
+
+option {
+  color: black;
+}

@@ -1,7 +1,7 @@
 .translator {
     display: flex;
     flex-direction: column;
-    background-color: #42004f;
+    background: linear-gradient(71deg, #B5C7EF -1.24%, #3DBBFA 101.15%);
     max-width: 690px;
     width: 100%;
     height: 370px;
