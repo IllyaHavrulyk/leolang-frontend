@@ -1,0 +1,17 @@
+.swapBtnWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    flex-grow: 1;
+}
+
+.iconButton {
+    display: flex;
+    font-size: 2.4rem;
+    padding: 1.2rem;
+    height: auto;
+    width: auto;
+    cursor: pointer;
+    color: white;
+}
